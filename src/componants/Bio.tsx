@@ -16,6 +16,9 @@ function Bio() {
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isModalOpen2, setIsModalOpen2] = React.useState(false);
 
+  // profile image state
+  const [selectedImage, setSelectedImage] = React.useState<File | null>(null);
+
   const dispatch = useDispatch();
   const bio = useSelector((state: RootState) => state.bioReducer.bio);
   const experience = useSelector(
@@ -23,6 +26,14 @@ function Bio() {
   );
   const [editBio, setEditBio] = React.useState(bio);
   const [editExperience, setEditExperience] = React.useState([...experience]);
+
+  //image file handle change
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      setSelectedImage(files[0]);
+    }
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -87,7 +98,6 @@ function Bio() {
     setIsModalOpen2(false);
   };
 
-  
   return (
     <>
       {/* Modal Experience */}
@@ -207,12 +217,19 @@ function Bio() {
             <div className="flex flex-col my-2  mx-4">
               Profile Image:
               <input
-                type="text"
-                name="profileimg"
-                value={editBio.profileimg || ""}
-                onChange={handleInputChange}
-                className=" py-1 text-base drop-shadow-sm px-3 border-indigo-400 border-2 focus:outline-none "
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                className="py-1 text-base drop-shadow-sm px-3 border-indigo-400 border-2 focus:outline-none"
               />
+              {/* {selectedImage && (
+                <button
+                 
+                  className="bg-indigo-600 rounded-full px-5 py-2 text-center drop-shadow-md my-2 hover:bg-indigo-500 cursor-pointer text-white"
+                >
+                  Upload Image
+                </button>
+              )} */}
             </div>
             <div className="flex flex-col my-2  mx-4">
               Description:
@@ -260,7 +277,11 @@ function Bio() {
           )}
           {/* photo */}
           <img
-            src={bio.profileimg}
+            src={
+              selectedImage
+                ? URL.createObjectURL(selectedImage)
+                : bio.profileimg
+            }
             className="w-[200px] border-4 border-fuchsia-900 rounded-md"
           />
 
