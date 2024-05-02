@@ -9,3 +9,13 @@
   margin: 0;
   padding: 0;
 }
+
+@media print {
+  body.hide-header header,
+  body.hide-header .header,
+  body.hide-header #header,
+  body.hide-header .header-container {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
