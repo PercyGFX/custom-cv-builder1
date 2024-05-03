@@ -23,49 +23,41 @@ function CV() {
       >
         Download / Print
       </button> */}
-      <ReactToPrint
-        pageStyle={`
-  @page {
-    size: auto;
-    margin-top: 3mm;
-    margin-bottom: 3mm;
-     margin-left: 0mm;
-     margin-right: 0mm;
-    
-  }
-  @bottom-right {
-    content: "Page " counter(pageNumber);
-  }
-  @top-right {
-    content: none;
-  }
+      <div className=" flex justify-center">
+        <ReactToPrint
+          //         pageStyle={`
+          // @page {
+          //   size: auto;
+          //   margin-top: 3mm;
 
+          // }
+          // `}
+          trigger={() => (
+            <button className="m-4 bg-rose-600 rounded-full px-5 py-2 text-center drop-shadow-md my-2 hover:bg-rose-500 cursor-pointer text-white">
+              Download / Print
+            </button>
+          )}
+          content={() => componentRef.current}
+        />
+      </div>
+      <div className="flex justify-center border">
+        <div ref={componentRef}>
+          {/* <div className="w-[1000px] flex p-4 shadow-lg border-b-8 border-fuchsia-900 m-2"> */}
+          <div className="w-[1000px] flex p-4 shadow-lg  m-2">
+            {/* left column */}
+            <div className=" w-[300px] shadow-md p-4 overflow-x-hidden">
+              <Bio />
 
+              <Skills />
 
-// `}
-        trigger={() => (
-          <button className="m-4 bg-rose-600 rounded-full px-5 py-2 text-center drop-shadow-md my-2 hover:bg-rose-500 cursor-pointer text-white">
-            Download / Print
-          </button>
-        )}
-        content={() => componentRef.current}
-      />
-      <div ref={componentRef}>
-        {/* <div className="w-[1000px] flex p-4 shadow-lg border-b-8 border-fuchsia-900 m-2"> */}
-        <div className="w-[1000px] flex p-4 shadow-lg  m-2">
-          {/* left column */}
-          <div className=" w-[300px] shadow-md p-4 overflow-x-hidden">
-            <Bio />
+              <Contact />
+            </div>
+            {/* right side */}
+            <div className="px-6 w-[700px]">
+              <WorkExperience />
 
-            <Skills />
-
-            <Contact />
-          </div>
-          {/* right side */}
-          <div className="px-6 w-[700px]">
-            <WorkExperience />
-
-            <Education />
+              <Education />
+            </div>
           </div>
         </div>
       </div>
