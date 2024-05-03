@@ -15,8 +15,6 @@ function CV() {
   //   content: () => componentRef.current,
   // });
 
-
-
   return (
     <>
       {/* <button
@@ -54,7 +52,7 @@ function CV() {
       />
       <div ref={componentRef}>
         {/* <div className="w-[1000px] flex p-4 shadow-lg border-b-8 border-fuchsia-900 m-2"> */}
-          <div className="w-[1000px] flex p-4 shadow-lg  m-2">
+        <div className="w-[1000px] flex p-4 shadow-lg  m-2">
           {/* left column */}
           <div className=" w-[300px] shadow-md p-4 overflow-x-hidden">
             <Bio />
