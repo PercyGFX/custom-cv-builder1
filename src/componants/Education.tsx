@@ -203,9 +203,9 @@ function Education() {
           Education:
         </h2>
 
-        {education.map((edu) => {
+        {education.map((edu, index) => {
           return (
-            <div className="mb-6 pl-4 ">
+            <div key={index} className="mb-6 pl-4 ">
               <h2 className=" text-lg font-semibold text-slate-700">
                 {edu.cource}
               </h2>

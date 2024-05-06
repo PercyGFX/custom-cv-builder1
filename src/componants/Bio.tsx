@@ -317,11 +317,11 @@ function Bio() {
           </h3>
 
           <ul className="list-disc ml-5">
-            {experience.map((exp) => {
+            {experience.map((exp, index) => {
               return (
-                <>
-                  <li>{exp}</li>
-                </>
+               
+                  <li key={index}>{exp}</li>
+               
               );
             })}
           </ul>

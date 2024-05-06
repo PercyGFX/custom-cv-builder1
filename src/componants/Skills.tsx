@@ -158,13 +158,13 @@ function Skills() {
           </div>
         )}
         <div className="flex flex-wrap">
-          {skills.map((skill) => {
+          {skills.map((skill, index) => {
             return (
-              <>
-                <div className="bg-fuchsia-900 rounded-md px-2 py-1 mb-2 text-white mr-3">
+             
+                <div  key={index} className="bg-fuchsia-900 rounded-md px-2 py-1 mb-2 text-white mr-3">
                   {skill}
                 </div>
-              </>
+            
             );
           })}
         </div>

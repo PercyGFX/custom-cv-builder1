@@ -205,9 +205,9 @@ function WorkExperience() {
           Experience:
         </h2>
 
-        {workExperience.map((exp) => {
+        {workExperience.map((exp, index) => {
           return (
-            <div className="mb-6 pl-4 border-l-4 border-purple-900">
+            <div key={index} className="mb-6 pl-4 border-l-4 border-purple-900">
               <h2 className=" text-lg font-semibold text-slate-700">
                 {exp.position}
               </h2>
