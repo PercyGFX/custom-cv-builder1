@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 import ReactToPrint from "react-to-print";
 
@@ -7,13 +7,18 @@ import Skills from "./Skills";
 import Contact from "./Contact";
 import WorkExperience from "./WorkExperience";
 import Education from "./Education";
+import PageBreak from "./PageBreak";
+
+import { RootState } from "../redux/store";
+import { useSelector } from "react-redux";
 
 function CV() {
   const componentRef = React.useRef();
+  const workExperience = useSelector(
+    (state) => state.workExperienceReducer.workExperience
+  );
 
-  // const handlePrint = useReactToPrint({
-  //   content: () => componentRef.current,
-  // });
+  console.log(workExperience);
 
   return (
     <>
@@ -43,20 +48,24 @@ function CV() {
       <div className="flex justify-center border">
         <div ref={componentRef}>
           {/* <div className="w-[1000px] flex p-4 shadow-lg border-b-8 border-fuchsia-900 m-2"> */}
-          <div className="w-[1000px] flex p-4 shadow-lg  m-2">
-            {/* left column */}
-            <div className=" w-[300px] shadow-md p-4 overflow-x-hidden">
-              <Bio />
+          <div className="shadow-lg ">
+            <div className="w-[1000px] flex p-4  m-2">
+              {/* left column */}
+              <div className=" w-[300px] shadow-md p-4 overflow-x-hidden">
+                <Bio />
 
-              <Skills />
+                <Skills />
+                {/* <PageBreak /> */}
 
-              <Contact />
-            </div>
-            {/* right side */}
-            <div className="px-6 w-[700px]">
-              <WorkExperience />
+                <Contact />
+              </div>
+              {/* right side */}
+              <div className="px-6 w-[700px]">
+                <WorkExperience />
 
-              <Education />
+                {workExperience.length > 3 && <PageBreak />}
+                <Education />
+              </div>
             </div>
           </div>
         </div>
