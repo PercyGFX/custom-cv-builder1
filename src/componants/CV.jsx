@@ -18,25 +18,45 @@ function CV() {
     (state) => state.workExperienceReducer.workExperience
   );
 
-  console.log(workExperience);
+  const education = useSelector((state) => state.educationReducer.education);
+
+  const [workExperienceHeight, setWorkExperienceHeight] = useState(0);
+  const [educationHeight, setEducationHeight] = useState(0);
+  const [totalheight, settotalHeight] = useState(0);
+
+  const workexp = useRef(null);
+  const eduexp = useRef(null);
+
+  useEffect(() => {
+    const { offsetHeight } = workexp.current;
+    setWorkExperienceHeight(offsetHeight);
+    console.log(offsetHeight);
+  }, [workExperience]);
+
+  useEffect(() => {
+    const { offsetHeight } = eduexp.current;
+    setEducationHeight(offsetHeight);
+    console.log(offsetHeight);
+  }, [education]);
+
+  useEffect(() => {
+    const { offsetHeight } = componentRef.current;
+    settotalHeight(offsetHeight);
+    console.log(offsetHeight);
+  }, [education, workExperience]);
+
+  // useEffect(() => {
+  //   if (componentRef.current) {
+  //     const height = componentRef.current.getBoundingClientRect().height;
+  //     console.log("Work Experience Height:", height);
+  //     setWorkExperienceHeight(height);
+  //   }
+  // }, [workExperience]);
 
   return (
     <>
-      {/* <button
-        className=" m-4 bg-rose-600 rounded-full px-5 py-2 text-center drop-shadow-md my-2 hover:bg-rose-500 cursor-pointer text-white"
-        onClick={handlePrint}
-      >
-        Download / Print
-      </button> */}
       <div className=" flex justify-center">
         <ReactToPrint
-          //         pageStyle={`
-          // @page {
-          //   size: auto;
-          //   margin-top: 3mm;
-
-          // }
-          // `}
           trigger={() => (
             <button className="m-4 bg-rose-600 rounded-full px-5 py-2 text-center drop-shadow-md my-2 hover:bg-rose-500 cursor-pointer text-white">
               Download / Print
@@ -47,24 +67,21 @@ function CV() {
       </div>
       <div className="flex justify-center border">
         <div ref={componentRef}>
-          {/* <div className="w-[1000px] flex p-4 shadow-lg border-b-8 border-fuchsia-900 m-2"> */}
           <div className="shadow-lg ">
             <div className="w-[1000px] flex p-4  m-2">
-              {/* left column */}
               <div className=" w-[300px] shadow-md p-4 overflow-x-hidden">
                 <Bio />
-
                 <Skills />
-                {/* <PageBreak /> */}
-
                 <Contact />
               </div>
-              {/* right side */}
               <div className="px-6 w-[700px]">
-                <WorkExperience />
-
-                {workExperience.length > 3 && <PageBreak />}
-                <Education />
+                <div ref={workexp}>
+                  <WorkExperience />
+                </div>
+                {workExperienceHeight + educationHeight > totalheight- 200 && <PageBreak />}
+                <div ref={eduexp}>
+                  <Education />
+                </div>
               </div>
             </div>
           </div>
