@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 import ReactToPrint from "react-to-print";
-
 import Bio from "./Bio";
 import Skills from "./Skills";
 import Contact from "./Contact";
@@ -9,61 +8,77 @@ import WorkExperience from "./WorkExperience";
 import Education from "./Education";
 import PageBreak from "./PageBreak";
 
-import { RootState } from "../redux/store";
-import { useSelector } from "react-redux";
-
 function CV() {
   const componentRef = React.useRef();
-  const workExperience = useSelector(
-    (state) => state.workExperienceReducer.workExperience
-  );
+  const [components, setComponents] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [selectedComponent, setSelectedComponent] = useState(null);
 
-  const education = useSelector((state) => state.educationReducer.education);
+  const [rightHeight, setRightHeight] = useState(0);
+  const [totalHeight, setTotalHeight] = useState(0);
 
-  const [workExperienceHeight, setWorkExperienceHeight] = useState(0);
-  const [educationHeight, setEducationHeight] = useState(0);
-  const [totalheight, settotalHeight] = useState(0);
-
-  const workexp = useRef(null);
-  const eduexp = useRef(null);
+  const rightSideRef = useRef(null);
 
   useEffect(() => {
-    const { offsetHeight } = workexp.current;
-    setWorkExperienceHeight(offsetHeight);
-    console.log(offsetHeight);
-  }, [workExperience]);
-
-  useEffect(() => {
-    const { offsetHeight } = eduexp.current;
-    setEducationHeight(offsetHeight);
-    console.log(offsetHeight);
-  }, [education]);
+    const { offsetHeight } = rightSideRef.current;
+    setRightHeight(offsetHeight);
+  }, [components]);
 
   useEffect(() => {
     const { offsetHeight } = componentRef.current;
-    settotalHeight(offsetHeight);
-    console.log(offsetHeight);
-  }, [education, workExperience]);
+    setTotalHeight(offsetHeight);
+  }, [components]);
 
-  // useEffect(() => {
-  //   if (componentRef.current) {
-  //     const height = componentRef.current.getBoundingClientRect().height;
-  //     console.log("Work Experience Height:", height);
-  //     setWorkExperienceHeight(height);
-  //   }
-  // }, [workExperience]);
+  const handleAddComponent = () => {
+    setShowAddModal(true);
+  };
+
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+    setSelectedComponent(null);
+  };
+
+  const handleSelectComponent = (component) => {
+    setSelectedComponent(component);
+  };
+
+  const handleConfirmAddComponent = () => {
+    if (selectedComponent === "WorkExperience") {
+      setComponents([
+        ...components,
+        <WorkExperienceContainer
+          key={components.length}
+          totalHeight={totalHeight}
+        />,
+      ]);
+    } else if (selectedComponent === "Education") {
+      setComponents([
+        ...components,
+        <EducationContainer key={components.length} />,
+      ]);
+    }
+    handleCloseAddModal();
+  };
+
+  const handleRemoveComponent = (index) => {
+    setComponents(components.filter((_, i) => i !== index));
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => {
+      return componentRef.current;
+    },
+  });
 
   return (
     <>
       <div className=" flex justify-center">
-        <ReactToPrint
-          trigger={() => (
-            <button className="m-4 bg-rose-600 rounded-full px-5 py-2 text-center drop-shadow-md my-2 hover:bg-rose-500 cursor-pointer text-white">
-              Download / Print
-            </button>
-          )}
-          content={() => componentRef.current}
-        />
+        <button
+          className="m-4 bg-rose-600 rounded-full px-5 py-2 text-center drop-shadow-md my-2 hover:bg-rose-500 cursor-pointer text-white"
+          onClick={handlePrint}
+        >
+          Download / Print
+        </button>
       </div>
       <div className="flex justify-center border">
         <div ref={componentRef}>
@@ -74,21 +89,142 @@ function CV() {
                 <Skills />
                 <Contact />
               </div>
-              <div className="px-6 w-[700px]">
-                <div ref={workexp}>
-                  <WorkExperience />
-                </div>
-                {workExperienceHeight + educationHeight > totalheight- 200 && <PageBreak />}
-                <div ref={eduexp}>
-                  <Education />
+              <div className="px-6 w-[700px]" ref={rightSideRef}>
+                {components.map((component, index) =>
+                  React.cloneElement(component, {
+                    key: index,
+                    onRemove: () => handleRemoveComponent(index),
+                  })
+                )}
+                {rightHeight > 1200 && <PageBreak />}
+                <div className="flex justify-center hideOnPrint border-4 border-dotted border-lime-500 py-10">
+                  <button
+                    onClick={handleAddComponent}
+                    className=" m-4 bg-lime-600 rounded-md px-5 py-2 text-center drop-shadow-md my-2 hover:bg-lime-700 cursor-pointer text-white"
+                  >
+                    Add Component
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      {showAddModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg">
+            <h2 className="text-lg font-bold mb-4">Add</h2>
+            <div className="mb-4">
+              <button
+                className={`mr-4 px-4 py-2 rounded ${
+                  selectedComponent === "WorkExperience"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => handleSelectComponent("WorkExperience")}
+              >
+                Work Experience
+              </button>
+              <button
+                className={`px-4 py-2 rounded ${
+                  selectedComponent === "Education"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => handleSelectComponent("Education")}
+              >
+                Education
+              </button>
+            </div>
+            <div className="flex justify-end">
+              <button
+                className="bg-gray-200 px-4 py-2 rounded mr-2"
+                onClick={handleCloseAddModal}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={handleConfirmAddComponent}
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
+
+const WorkExperienceContainer = ({ onRemove }) => {
+  const [showRemoveButton, setShowRemoveButton] = useState(false);
+
+  const handleMouseEnter = () => {
+    setShowRemoveButton(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowRemoveButton(false);
+  };
+
+  const handleRemoveWorkExperience = () => {
+    onRemove();
+  };
+
+  return (
+    <div
+      className={showRemoveButton ? `pb-4` : ``}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="m-2">
+        <WorkExperience />
+      </div>
+
+      <button
+        className="hideOnPrint m-2 bg-red-500 text-white px-2 py-1 rounded"
+        onClick={handleRemoveWorkExperience}
+      >
+        Remove
+      </button>
+    </div>
+  );
+};
+
+const EducationContainer = ({ onRemove }) => {
+  const [showRemoveButton, setShowRemoveButton] = useState(false);
+
+  const handleMouseEnter = () => {
+    setShowRemoveButton(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowRemoveButton(false);
+  };
+
+  const handleRemoveEducation = () => {
+    onRemove();
+  };
+
+  return (
+    <div
+      className={showRemoveButton ? `pb-4` : ``}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="">
+        <Education />
+      </div>
+
+      <button
+        className="hideOnPrint m-2 bg-red-500 text-white px-2 py-1 rounded"
+        onClick={handleRemoveEducation}
+      >
+        Remove
+      </button>
+    </div>
+  );
+};
 
 export default CV;
