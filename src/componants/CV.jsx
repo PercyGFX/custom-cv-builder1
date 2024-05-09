@@ -9,25 +9,19 @@ import Education from "./Education";
 import PageBreak from "./PageBreak";
 
 function CV() {
-  const componentRef = React.useRef();
+  const componentRef = useRef();
   const [components, setComponents] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedComponent, setSelectedComponent] = useState(null);
 
-  const [rightHeight, setRightHeight] = useState(0);
+  const [componentHeights, setComponentHeights] = useState([]);
   const [totalHeight, setTotalHeight] = useState(0);
 
-  const rightSideRef = useRef(null);
-
   useEffect(() => {
-    const { offsetHeight } = rightSideRef.current;
-    setRightHeight(offsetHeight);
-  }, [components]);
-
-  useEffect(() => {
-    const { offsetHeight } = componentRef.current;
-    setTotalHeight(offsetHeight);
-  }, [components]);
+    const heights = components.map((_, index) => componentHeights[index]);
+    const total = heights.reduce((acc, height) => acc + height, 0);
+    setTotalHeight(total);
+  }, [components, componentHeights]);
 
   const handleAddComponent = () => {
     setShowAddModal(true);
@@ -44,30 +38,22 @@ function CV() {
 
   const handleConfirmAddComponent = () => {
     if (selectedComponent === "WorkExperience") {
-      setComponents([
-        ...components,
-        <WorkExperienceContainer
-          key={components.length}
-          totalHeight={totalHeight}
-        />,
-      ]);
+      setComponents([...components, WorkExperienceContainer]);
     } else if (selectedComponent === "Education") {
-      setComponents([
-        ...components,
-        <EducationContainer key={components.length} />,
-      ]);
+      setComponents([...components, EducationContainer]);
     }
     handleCloseAddModal();
   };
 
   const handleRemoveComponent = (index) => {
     setComponents(components.filter((_, i) => i !== index));
+    setComponentHeights((prevHeights) =>
+      prevHeights.filter((_, i) => i !== index)
+    );
   };
 
   const handlePrint = useReactToPrint({
-    content: () => {
-      return componentRef.current;
-    },
+    content: () => componentRef.current,
   });
 
   return (
@@ -89,14 +75,22 @@ function CV() {
                 <Skills />
                 <Contact />
               </div>
-              <div className="px-6 w-[700px]" ref={rightSideRef}>
-                {components.map((component, index) =>
-                  React.cloneElement(component, {
-                    key: index,
-                    onRemove: () => handleRemoveComponent(index),
-                  })
-                )}
-                {rightHeight > 1200 && <PageBreak />}
+              <div className="px-6 w-[700px]">
+                {components.map((Component, index) => (
+                  <React.Fragment key={index}>
+                    {totalHeight >= 1200 && index !== 0 && <PageBreak />}
+                    <Component
+                      onRemove={() => handleRemoveComponent(index)}
+                      setHeight={(height) =>
+                        setComponentHeights((prevHeights) => {
+                          const newHeights = [...prevHeights];
+                          newHeights[index] = height;
+                          return newHeights;
+                        })
+                      }
+                    />
+                  </React.Fragment>
+                ))}
                 <div className="flex justify-center hideOnPrint border-4 border-dotted border-lime-500 py-10">
                   <button
                     onClick={handleAddComponent}
@@ -157,8 +151,15 @@ function CV() {
   );
 }
 
-const WorkExperienceContainer = ({ onRemove }) => {
+const WorkExperienceContainer = ({ onRemove, setHeight }) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
+  const contentRef = useRef();
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setHeight(contentRef.current.offsetHeight);
+    }
+  }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
@@ -178,7 +179,7 @@ const WorkExperienceContainer = ({ onRemove }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="m-2">
+      <div className="m-2" ref={contentRef}>
         <WorkExperience />
       </div>
 
@@ -192,8 +193,15 @@ const WorkExperienceContainer = ({ onRemove }) => {
   );
 };
 
-const EducationContainer = ({ onRemove }) => {
+const EducationContainer = ({ onRemove, setHeight }) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
+  const contentRef = useRef();
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setHeight(contentRef.current.offsetHeight);
+    }
+  }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
@@ -213,7 +221,7 @@ const EducationContainer = ({ onRemove }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="">
+      <div className="" ref={contentRef}>
         <Education />
       </div>
 
