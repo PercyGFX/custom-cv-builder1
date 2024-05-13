@@ -5,7 +5,6 @@ import Skills from "./Skills";
 import Contact from "./Contact";
 import WorkExperience from "./WorkExperience";
 import Education from "./Education";
-import PageBreak from "./PageBreak";
 import WorkExperienceContainer from "./Containers/WorkExperienceContainer";
 
 function CV() {
@@ -31,19 +30,6 @@ function CV() {
 
   //------------------------------------------------------------------//
 
-  const [componentHeights, setComponentHeights] = useState([]);
-  const [componentHeightsLeft, setComponentHeightsLeft] = useState([]);
-  // const [totalHeight, setTotalHeight] = useState(0);
-
-//   const [currentPageHeight, setCurrentPageHeight] = useState(0);
-  
-
-// useEffect(() => {
-//   const updatedCurrentPageHeight =
-//     currentPageHeight + componentHeights[components.length - 1];
-//   setCurrentPageHeight(updatedCurrentPageHeight);
-// }, [components, componentHeights, currentPageHeight]);
-
   const handleAddComponent = () => {
     setShowAddModal(true);
   };
@@ -57,20 +43,18 @@ function CV() {
     setSelectedComponent(null);
   };
 
-  
-
-    const handleCloseAddModalLeft = () => {
-      setShowAddModalLeft(false);
-      setSelectedComponentLeft(null);
-    };
+  const handleCloseAddModalLeft = () => {
+    setShowAddModalLeft(false);
+    setSelectedComponentLeft(null);
+  };
 
   const handleSelectComponent = (component) => {
     setSelectedComponent(component);
   };
 
-   const handleSelectComponentLeft = (component) => {
-     setSelectedComponentLeft(component);
-   };
+  const handleSelectComponentLeft = (component) => {
+    setSelectedComponentLeft(component);
+  };
 
   const handleConfirmAddComponent = () => {
     if (selectedComponent === "WorkExperience") {
@@ -90,21 +74,13 @@ function CV() {
     handleCloseAddModalLeft();
   };
 
-  ;
-
   const handleRemoveComponent = (index) => {
     setComponents(components.filter((_, i) => i !== index));
-    setComponentHeights((prevHeights) =>
-      prevHeights.filter((_, i) => i !== index)
-    );
   };
 
-    const handleRemoveComponentLeft = (index) => {
-      setComponentsLeft(componentsLeft.filter((_, i) => i !== index));
-      setComponentHeights((prevHeights) =>
-        prevHeights.filter((_, i) => i !== index)
-      );
-    };
+  const handleRemoveComponentLeft = (index) => {
+    setComponentsLeft(componentsLeft.filter((_, i) => i !== index));
+  };
 
   // print function
   const handlePrint = useReactToPrint({
@@ -139,87 +115,6 @@ function CV() {
                   </React.Fragment>
                 ))}
 
-                {/* {(() => {
-                  let currentPageComponents = [];
-                  let currentPageHeight = 0;
-                  const renderedPages = [];
-
-                  const addPageBreak = () => {
-                    if (currentPageComponents.length > 0) {
-                      renderedPages.push(
-                        <React.Fragment key={`page-${renderedPages.length}`}>
-                          {currentPageComponents}
-                          <PageBreak />
-                        </React.Fragment>
-                      );
-                      currentPageComponents = [];
-                      currentPageHeight = 0;
-                    }
-                  };
-
-                  for (let i = 0; i < componentsLeft.length; i++) {
-                    const Component = componentsLeft[i];
-                    const height = componentHeightsLeft[i];
-
-                    if (i === 0) {
-                      currentPageHeight += height;
-                      currentPageComponents.push(
-                        <Component
-                          key={`component-${i}`}
-                          onRemove={() => handleRemoveComponentLeft(i)}
-                          setHeight={(height) =>
-                            setComponentHeightsLeft((prevHeights) => {
-                              const newHeights = [...prevHeights];
-                              newHeights[i] = height;
-                              return newHeights;
-                            })
-                          }
-                        />
-                      );
-                    } else if (currentPageHeight + height > 600) {
-                      addPageBreak();
-                      currentPageHeight = height;
-                      currentPageComponents.push(
-                        <Component
-                          key={`component-${i}`}
-                          onRemove={() => handleRemoveComponentLeft(i)}
-                          setHeight={(height) =>
-                            setComponentHeightsLeft((prevHeights) => {
-                              const newHeights = [...prevHeights];
-                              newHeights[i] = height;
-                              return newHeights;
-                            })
-                          }
-                        />
-                      );
-                    } else {
-                      currentPageHeight += height;
-                      currentPageComponents.push(
-                        <Component
-                          key={`component-${i}`}
-                          onRemove={() => handleRemoveComponentLeft(i)}
-                          setHeight={(height) =>
-                            setComponentHeightsLeft((prevHeights) => {
-                              const newHeights = [...prevHeights];
-                              newHeights[i] = height;
-                              return newHeights;
-                            })
-                          }
-                        />
-                      );
-                    }
-                  }
-
-                  if (currentPageComponents.length > 0) {
-                    renderedPages.push(
-                      <React.Fragment key={`page-${renderedPages.length}`}>
-                        {currentPageComponents}
-                      </React.Fragment>
-                    );
-                  }
-
-                  return renderedPages;
-                })()} */}
                 <div className="flex justify-center hideOnPrint border-4 border-dotted border-lime-500 py-10">
                   <button
                     onClick={handleAddComponentLeft}
@@ -233,93 +128,10 @@ function CV() {
                 {/* array map right side componants */}
                 {components.map((Component, index) => (
                   <React.Fragment key={index}>
-                    <Component
-                      onRemove={() => handleRemoveComponent(index)}
-                    />
+                    <Component onRemove={() => handleRemoveComponent(index)} />
                   </React.Fragment>
                 ))}
 
-                {/* {(() => {
-                  let currentPageComponents = [];
-                  let currentPageHeight = 0;
-                  const renderedPages = [];
-
-                  const addPageBreak = () => {
-                    if (currentPageComponents.length > 0) {
-                      renderedPages.push(
-                        <React.Fragment key={`page-${renderedPages.length}`}>
-                          {currentPageComponents}
-                          <PageBreak />
-                        </React.Fragment>
-                      );
-                      currentPageComponents = [];
-                      currentPageHeight = 0;
-                    }
-                  };
-
-                  for (let i = 0; i < components.length; i++) {
-                    const Component = components[i];
-                    const height = componentHeights[i];
-
-                    if (i === 0) {
-                      currentPageHeight += height;
-                      currentPageComponents.push(
-                        <Component
-                          key={`component-${i}`}
-                          onRemove={() => handleRemoveComponent(i)}
-                          setHeight={(height) =>
-                            setComponentHeights((prevHeights) => {
-                              const newHeights = [...prevHeights];
-                              newHeights[i] = height;
-                              return newHeights;
-                            })
-                          }
-                        />
-                      );
-                    } else if (currentPageHeight + height > 1200) {
-                      addPageBreak();
-                      currentPageHeight = height;
-                      currentPageComponents.push(
-                        <Component
-                          key={`component-${i}`}
-                          onRemove={() => handleRemoveComponent(i)}
-                          setHeight={(height) =>
-                            setComponentHeights((prevHeights) => {
-                              const newHeights = [...prevHeights];
-                              newHeights[i] = height;
-                              return newHeights;
-                            })
-                          }
-                        />
-                      );
-                    } else {
-                      currentPageHeight += height;
-                      currentPageComponents.push(
-                        <Component
-                          key={`component-${i}`}
-                          onRemove={() => handleRemoveComponent(i)}
-                          setHeight={(height) =>
-                            setComponentHeights((prevHeights) => {
-                              const newHeights = [...prevHeights];
-                              newHeights[i] = height;
-                              return newHeights;
-                            })
-                          }
-                        />
-                      );
-                    }
-                  }
-
-                  if (currentPageComponents.length > 0) {
-                    renderedPages.push(
-                      <React.Fragment key={`page-${renderedPages.length}`}>
-                        {currentPageComponents}
-                      </React.Fragment>
-                    );
-                  }
-
-                  return renderedPages;
-                })()} */}
                 <div className="flex justify-center hideOnPrint border-4 border-dotted border-lime-500 py-10">
                   <button
                     onClick={handleAddComponent}
@@ -428,18 +240,10 @@ function CV() {
   );
 }
 
-
-
 // education compoannt
-const EducationContainer = ({ onRemove, setHeight }) => {
+const EducationContainer = ({ onRemove }) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const contentRef = useRef();
-
-  // useEffect(() => {
-  //   if (contentRef.current) {
-  //     setHeight(contentRef.current.offsetHeight);
-  //   }
-  // }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
@@ -474,15 +278,9 @@ const EducationContainer = ({ onRemove, setHeight }) => {
 };
 
 // skills compoannt
-const SkillsContainer = ({ onRemove, setHeight }) => {
+const SkillsContainer = ({ onRemove }) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const contentRef = useRef();
-
-  // useEffect(() => {
-  //   if (contentRef.current) {
-  //     setHeight(contentRef.current.offsetHeight);
-  //   }
-  // }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
@@ -516,17 +314,10 @@ const SkillsContainer = ({ onRemove, setHeight }) => {
   );
 };
 
-
 // contact compoannt
-const ContactContainer = ({ onRemove, setHeight }) => {
+const ContactContainer = ({ onRemove }) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const contentRef = useRef();
-
-  // useEffect(() => {
-  //   if (contentRef.current) {
-  //     setHeight(contentRef.current.offsetHeight);
-  //   }
-  // }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
@@ -561,4 +352,3 @@ const ContactContainer = ({ onRemove, setHeight }) => {
 };
 
 export default CV;
-

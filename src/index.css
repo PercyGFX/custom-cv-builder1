@@ -16,3 +16,10 @@
               display: none;
             }
           }
+
+          @media print {
+  @page {
+    margin-top: 5mm; /* Adjust the value as needed */
+    margin-bottom: 5mm; /* Adjust the value as needed */
+  }
+}

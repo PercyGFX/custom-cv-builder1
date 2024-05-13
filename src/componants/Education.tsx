@@ -217,7 +217,7 @@ function Education() {
               <h2 className=" text-normal font-semibold text-fuchsia-900">
                 {edu.institute} | {edu.time}
               </h2>
-              <p className=" text-justify" style={{ pageBreakInside: "avoid" }}>
+              <p className=" text-justify">
                 {edu.description}
               </p>
             </div>

@@ -319,9 +319,9 @@ function Bio() {
           <ul className="list-disc ml-5">
             {experience.map((exp, index) => {
               return (
-               
-                  <li key={index}>{exp}</li>
-               
+                <li style={{ pageBreakInside: "avoid" }} key={index}>
+                  {exp}
+                </li>
               );
             })}
           </ul>

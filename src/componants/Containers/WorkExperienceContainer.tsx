@@ -2,15 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import WorkExperience from "../WorkExperience";
 
 // work experience compoannt
-const WorkExperienceContainer = ({ onRemove, setHeight  } : any) => {
+const WorkExperienceContainer = ({ onRemove  } : any) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const contentRef = useRef<HTMLDivElement>();
 
-  // useEffect(() => {
-  //   if (contentRef.current) {
-  //     setHeight(contentRef.current?.offsetHeight);
-  //   }
-  // }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
