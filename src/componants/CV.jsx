@@ -3,9 +3,8 @@ import { useReactToPrint } from "react-to-print";
 import Bio from "./Bio";
 import Skills from "./Skills";
 import Contact from "./Contact";
-import WorkExperience from "./WorkExperience";
-import Education from "./Education";
 import WorkExperienceContainer from "./Containers/WorkExperienceContainer";
+import EducationContainer from "./Containers/EducationContainer";
 
 function CV() {
   // print componant ref
@@ -240,42 +239,7 @@ function CV() {
   );
 }
 
-// education compoannt
-const EducationContainer = ({ onRemove }) => {
-  const [showRemoveButton, setShowRemoveButton] = useState(false);
-  const contentRef = useRef();
 
-  const handleMouseEnter = () => {
-    setShowRemoveButton(true);
-  };
-
-  const handleMouseLeave = () => {
-    setShowRemoveButton(false);
-  };
-
-  const handleRemoveEducation = () => {
-    onRemove();
-  };
-
-  return (
-    <div
-      className={showRemoveButton ? `pb-4` : ``}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="" ref={contentRef}>
-        <Education />
-      </div>
-
-      <button
-        className="hideOnPrint m-2 bg-red-500 text-white px-2 py-1 rounded"
-        onClick={handleRemoveEducation}
-      >
-        Remove
-      </button>
-    </div>
-  );
-};
 
 // skills compoannt
 const SkillsContainer = ({ onRemove }) => {

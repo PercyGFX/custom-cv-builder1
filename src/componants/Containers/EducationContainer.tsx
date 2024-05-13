@@ -1,11 +1,40 @@
-import React from 'react'
+import Education from "../Education";
+import { useState } from "react";
 
-type Props = {}
+const EducationContainer = ({ onRemove } :any) => {
+  const [showRemoveButton, setShowRemoveButton] = useState(false);
+  
 
-function EducationContainer({}: Props) {
+  const handleMouseEnter = () => {
+    setShowRemoveButton(true);
+  };
+
+  const handleMouseLeave = () => {
+    setShowRemoveButton(false);
+  };
+
+  const handleRemoveEducation = () => {
+    onRemove();
+  };
+
   return (
-    <div>EducationContainer</div>
-  )
-}
+    <div
+      className={showRemoveButton ? `pb-4` : ``}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div>
+        <Education />
+      </div>
 
-export default EducationContainer
+      <button
+        className="hideOnPrint m-2 bg-red-500 text-white px-2 py-1 rounded"
+        onClick={handleRemoveEducation}
+      >
+        Remove
+      </button>
+    </div>
+  );
+};
+
+export default EducationContainer;

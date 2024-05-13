@@ -4,7 +4,7 @@ import WorkExperience from "../WorkExperience";
 // work experience compoannt
 const WorkExperienceContainer = ({ onRemove  } : any) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
-  const contentRef = useRef<HTMLDivElement>();
+  
 
 
   const handleMouseEnter = () => {
@@ -25,7 +25,7 @@ const WorkExperienceContainer = ({ onRemove  } : any) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="m-2" ref={contentRef as React.RefObject<HTMLDivElement>}>
+      <div className="m-2" >
         <WorkExperience />
       </div>
 
