@@ -131,15 +131,15 @@ function CV() {
                 <Contact /> */}
                 {/* left side componants */}
 
-                {/* {componentsLeft.map((Component, index) => (
+                {componentsLeft.map((Component, index) => (
                   <React.Fragment key={index}>
                     <Component
                       onRemove={() => handleRemoveComponentLeft(index)}
                     />
                   </React.Fragment>
-                ))} */}
+                ))}
 
-                {(() => {
+                {/* {(() => {
                   let currentPageComponents = [];
                   let currentPageHeight = 0;
                   const renderedPages = [];
@@ -219,7 +219,7 @@ function CV() {
                   }
 
                   return renderedPages;
-                })()}
+                })()} */}
                 <div className="flex justify-center hideOnPrint border-4 border-dotted border-lime-500 py-10">
                   <button
                     onClick={handleAddComponentLeft}
@@ -231,7 +231,15 @@ function CV() {
               </div>
               <div className="px-6 w-[700px]">
                 {/* array map right side componants */}
-                {(() => {
+                {components.map((Component, index) => (
+                  <React.Fragment key={index}>
+                    <Component
+                      onRemove={() => handleRemoveComponent(index)}
+                    />
+                  </React.Fragment>
+                ))}
+
+                {/* {(() => {
                   let currentPageComponents = [];
                   let currentPageHeight = 0;
                   const renderedPages = [];
@@ -311,7 +319,7 @@ function CV() {
                   }
 
                   return renderedPages;
-                })()}
+                })()} */}
                 <div className="flex justify-center hideOnPrint border-4 border-dotted border-lime-500 py-10">
                   <button
                     onClick={handleAddComponent}
@@ -427,11 +435,11 @@ const EducationContainer = ({ onRemove, setHeight }) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const contentRef = useRef();
 
-  useEffect(() => {
-    if (contentRef.current) {
-      setHeight(contentRef.current.offsetHeight);
-    }
-  }, [setHeight]);
+  // useEffect(() => {
+  //   if (contentRef.current) {
+  //     setHeight(contentRef.current.offsetHeight);
+  //   }
+  // }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
@@ -470,11 +478,11 @@ const SkillsContainer = ({ onRemove, setHeight }) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const contentRef = useRef();
 
-  useEffect(() => {
-    if (contentRef.current) {
-      setHeight(contentRef.current.offsetHeight);
-    }
-  }, [setHeight]);
+  // useEffect(() => {
+  //   if (contentRef.current) {
+  //     setHeight(contentRef.current.offsetHeight);
+  //   }
+  // }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
@@ -514,11 +522,11 @@ const ContactContainer = ({ onRemove, setHeight }) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const contentRef = useRef();
 
-  useEffect(() => {
-    if (contentRef.current) {
-      setHeight(contentRef.current.offsetHeight);
-    }
-  }, [setHeight]);
+  // useEffect(() => {
+  //   if (contentRef.current) {
+  //     setHeight(contentRef.current.offsetHeight);
+  //   }
+  // }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);

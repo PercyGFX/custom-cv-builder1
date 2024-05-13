@@ -6,11 +6,11 @@ const WorkExperienceContainer = ({ onRemove, setHeight  } : any) => {
   const [showRemoveButton, setShowRemoveButton] = useState(false);
   const contentRef = useRef<HTMLDivElement>();
 
-  useEffect(() => {
-    if (contentRef.current) {
-      setHeight(contentRef.current?.offsetHeight);
-    }
-  }, [setHeight]);
+  // useEffect(() => {
+  //   if (contentRef.current) {
+  //     setHeight(contentRef.current?.offsetHeight);
+  //   }
+  // }, [setHeight]);
 
   const handleMouseEnter = () => {
     setShowRemoveButton(true);
