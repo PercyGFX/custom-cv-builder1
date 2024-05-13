@@ -132,6 +132,7 @@ function Education() {
                   />
                   Description
                   <textarea
+                   
                     name="description"
                     value={exp.description || ""}
                     onChange={(e) => handleExperienceInputChange(e, index)}
@@ -205,14 +206,20 @@ function Education() {
 
         {education.map((edu, index) => {
           return (
-            <div key={index} className="mb-6 pl-4 ">
+            <div
+              key={index}
+              className="mb-6 pl-4 "
+              style={{ pageBreakInside: "avoid" }}
+            >
               <h2 className=" text-lg font-semibold text-slate-700">
                 {edu.cource}
               </h2>
               <h2 className=" text-normal font-semibold text-fuchsia-900">
                 {edu.institute} | {edu.time}
               </h2>
-              <p className=" text-justify">{edu.description}</p>
+              <p className=" text-justify" style={{ pageBreakInside: "avoid" }}>
+                {edu.description}
+              </p>
             </div>
           );
         })}

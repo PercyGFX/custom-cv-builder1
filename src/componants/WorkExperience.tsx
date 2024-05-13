@@ -133,6 +133,7 @@ function WorkExperience() {
                   />
                   Description
                   <textarea
+                    
                     name="description"
                     value={exp.description || ""}
                     onChange={(e) => handleExperienceInputChange(e, index)}
@@ -207,7 +208,11 @@ function WorkExperience() {
 
         {workExperience.map((exp, index) => {
           return (
-            <div key={index} className="mb-6 pl-4 border-l-4 border-purple-900">
+            <div
+              key={index}
+              className="mb-6 pl-4 border-l-4 border-purple-900"
+              style={{ pageBreakInside: "avoid" }}
+            >
               <h2 className=" text-lg font-semibold text-slate-700">
                 {exp.position}
               </h2>
