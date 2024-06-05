@@ -19,7 +19,7 @@
 
           @media print {
   @page {
-    margin-top: 5mm; /* Adjust the value as needed */
-    margin-bottom: 5mm; /* Adjust the value as needed */
+    margin-top: 15mm; /* Adjust the value as needed */
+    margin-bottom: 15mm; /* Adjust the value as needed */
   }
 }
